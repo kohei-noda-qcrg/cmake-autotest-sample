@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Modern Fortran auto create files
+src/*.i90
+src/*.mod
