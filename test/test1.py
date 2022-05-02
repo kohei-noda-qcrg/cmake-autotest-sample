@@ -1,5 +1,6 @@
 import subprocess
 import os
+
 # import pytest
 
 
@@ -21,12 +22,17 @@ import os
 #     cp = subprocess.run("ls " + absolute_filepath + "/test.sh", shell=True)
 #     assert cp.returncode == 0
 
+
 def greptest() -> None:
     absolute_filepath = os.path.dirname(os.path.abspath(__file__))
-    cp0 = subprocess.call(absolute_filepath + "/../src/a.out && ./test.sh",shell=True)
+    cp0 = subprocess.call(absolute_filepath + "/../src/a.out", shell=True)
     print(cp0)
-    out = subprocess.call("cat test.out | awk '/ENERGY/{getline;print $2}$1 ~ /Total/{print $(NF - 1)}' | tr -s '\n'",shell=True)
+    out = subprocess.call(
+        "cat test.out | awk '/ENERGY/{getline;print $2}$1 ~ /Total/{print $(NF - 1)}' | tr -s '\n'",
+        shell=True,
+    )
     # print(out.stdout)
+
 
 if __name__ == "__main__":
     greptest()
