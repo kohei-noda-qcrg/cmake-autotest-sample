@@ -20,8 +20,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            /opt/intel/oneapi/compiler
-          key: ${{ runner.os }}-install-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
+            /opt/intel/oneapi
+          key: ${{ runner.os }}-install-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}
       - name: Setup Intel fortran (apt)
         if: steps.cache-install.outputs.cache-hit != 'true'
         run: |
