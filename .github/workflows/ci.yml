@@ -7,15 +7,15 @@ on: push
 env:
   LINUX_BASEKIT_SH: l_BaseKit_p_2022.2.0.262_offline.sh
   LINUX_HPCKIT_SH: l_HPCKit_p_2022.2.0.191_offline.sh
-  LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18673/$LINUX_BASEKIT_SH
-  LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18679/$LINUX_HPCKIT_SH
+  LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18673/${{ env.LINUX_BASEKIT_SH }}
+  LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18679/${{ env.LINUX_HPCKIT_SH }}
   LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
 defaults:
   run:
     shell: bash
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubutu-latest
     steps:
       - uses: actions/checkout@v2
       - name: cache install
