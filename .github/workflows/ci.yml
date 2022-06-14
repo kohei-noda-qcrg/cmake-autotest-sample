@@ -10,6 +10,7 @@ defaults:
     shell: bash
 jobs:
   build:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,6 +22,7 @@ jobs:
             /opt/intel/oneapi
           key: ${{ runner.os }}-install-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}
       - name: Setup Intel fortran (apt)
+        timeout-minutes: 2
         if: steps.cache-install.outputs.cache-hit != 'true'
         run: |
           wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
@@ -28,25 +30,31 @@ jobs:
           echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
           sudo apt-get update
       - name: Install Intel Fortran compiler
+        timeout-minutes: 8
         if: steps.cache-install.outputs.cache-hit != 'true'
         run: |
           sudo apt-get install intel-oneapi-compiler-fortran intel-oneapi-openmp intel-oneapi-mpi intel-oneapi-mpi-devel intel-oneapi-mkl
       - name: Set Intel oneAPI environments
+        timeout-minutes: 1
         run: |
           source /opt/intel/oneapi/setvars.sh
           printenv >> $GITHUB_ENV
       - name: Install python
+        timeout-minutes: 2
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
-          architecture: 'x64'
+          python-version: "3.9"
+          architecture: "x64"
       - name: Install pytest for unit test
+        timeout-minutes: 1
         run: python -m pip install pytest
       - name: Build source code
+        timeout-minutes: 1
         run: |
           FC=ifort cmake -B build
           cmake --build build
       - name: Run unittest
+        timeout-minutes: 5
         run: |
           cd test
           pytest test1.py
