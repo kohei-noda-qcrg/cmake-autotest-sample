@@ -49,7 +49,7 @@ jobs:
           mkdir build
           cd build
           FC=ifort cmake ..
-          make &&
+          make
       - name: Run unittest
         run: |
           cd test
