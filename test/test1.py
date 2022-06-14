@@ -9,7 +9,7 @@ import os
 
 
 # @pytest.mark.default
-# def test2() -> None:
+#def test2() -> None:
 #     if 1 == 1:
 #         err()
 #         exit(1)
@@ -23,16 +23,17 @@ import os
 #     assert cp.returncode == 0
 
 
-def greptest() -> None:
+
+def test_grep():
     absolute_filepath = os.path.dirname(os.path.abspath(__file__))
-    cp0 = subprocess.call(absolute_filepath + "/../src/a.out", shell=True)
+    cp0 = subprocess.call(absolute_filepath + "/../bin/a.out", shell=True)
     print(cp0)
     out = subprocess.call(
         "cat test.out | awk '/ENERGY/{getline;print $2}$1 ~ /Total/{print $(NF - 1)}' | tr -s '\n'",
         shell=True,
     )
-    # print(out.stdout)
+    assert cp0 == out
 
 
 if __name__ == "__main__":
-    greptest()
+    test_grep()
