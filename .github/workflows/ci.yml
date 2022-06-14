@@ -15,7 +15,7 @@ defaults:
     shell: bash
 jobs:
   build:
-    runs-on: ubnutu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: cache install
