@@ -10,7 +10,6 @@ env:
   LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18673/l_BaseKit_p_2022.2.0.262_offline.sh
   LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18679/l_HPCKit_p_2022.2.0.191_offline.sh
   LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
-  IFORT_PATH: /opt/intel/oneapi/compiler/latest/linux/bin/intel64/ifort
 defaults:
   run:
     shell: bash
@@ -18,23 +17,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: cache install
         id: cache-install
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             /opt/intel/oneapi/compiler
-          key: install-${{ env.LINUX_HPCKIT_URL }}-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
-      - name: install fortran
+          key: ${{ runner.os }}-install-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
+      - name: Setup Intel fortran (apt)
         if: steps.cache-install.outputs.cache-hit != 'true'
         run: |
           wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
           sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
           echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
           sudo apt-get update
-          sudo apt-get install intel-oneapi-openmp intel-oneapi-mpi  intel-oneapi-mpi-devel intel-oneapi-mkl intel-oneapi-compiler-fortran intel-oneapi-common-licensing
+      - name: Install Intel Fortran compiler
+        if: steps.cache-install.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get install intel-oneapi-openmp intel-oneapi-mpi  intel-oneapi-mpi-devel intel-oneapi-mkl intel-oneapi-compiler-fortran
+      - name: Set Intel oneAPI environments
           source /opt/intel/oneapi/setvars.sh
+          printenv >> $GITHUB_ENV
       - name: Install python
         uses: actions/setup-python@v4
         with:
@@ -46,7 +50,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          FC=${{ env.IFORT_PATH }} cmake ..
+          FC=ifort cmake ..
           make &&
       - name: Run unittest
         run: |
