@@ -40,6 +40,9 @@ jobs:
         with:
           python-version: '3.9'
           architecture: 'x64'
+      - name: check which ifort
+        run: |
+          which ifort
       - name: Install pytest for unit test
         run: python -m pip install pytest
       - name: Build source code
