@@ -27,11 +27,11 @@ jobs:
           key: install-${{ env.LINUX_HPCKIT_URL }}-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
       - name: install fortran
         if: steps.cache-install.outputs.cache-hit != 'true'
-          run: |
-            wget $LINUX_BASE_URL
-            sudo sh ./$LINUX_BASEKIT_SH
-            wget $LINUX_HPCKIT_URL
-            sudo sh ./$LINUX_HPCKIT_SH
+        run: |
+          wget $LINUX_BASE_URL
+          sudo sh ./$LINUX_BASEKIT_SH
+          wget $LINUX_HPCKIT_URL
+          sudo sh ./$LINUX_HPCKIT_SH
       - name: Install python
         uses: actions/setup-python@v4
           with:
