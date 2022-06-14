@@ -34,9 +34,9 @@ jobs:
           sudo sh ./$LINUX_HPCKIT_SH
       - name: Install python
         uses: actions/setup-python@v4
-          with:
-            python-version: '3.9'
-            architecture: 'x64'
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
       - name: Install pytest for unit test
         run: python install pytest
       - name: Build source code
