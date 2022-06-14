@@ -16,26 +16,26 @@ defaults:
 jobs:
   build:
     runs-on: ubnutu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: cache install
-          id: cache-install
-          uses: actions/cache@v2
+    steps:
+      - uses: actions/checkout@v2
+      - name: cache install
+        id: cache-install
+        uses: actions/cache@v2
+        with:
+          path: |
+            /opt/intel/oneapi/compiler
+          key: install-${{ env.LINUX_HPCKIT_URL }}-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
+      - name: install fortran
+        if: steps.cache-install.outputs.cache-hit != 'true'
+          run: wget $LINUX_BASE_URL && sudo sh ./$LINUX_BASEKIT_SH && wget $LINUX_HPCKIT_URL && sudo sh ./$LINUX_HPCKIT_SH
+      - name: Install python
+        uses: actions/setup-python@v4
           with:
-            path: |
-              /opt/intel/oneapi/compiler
-            key: install-${{ env.LINUX_HPCKIT_URL }}-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
-        - name: install fortran
-          if: steps.cache-install.outputs.cache-hit != 'true'
-            run: wget $LINUX_BASE_URL && sudo sh ./$LINUX_BASEKIT_SH && wget $LINUX_HPCKIT_URL && sudo sh ./$LINUX_HPCKIT_SH
-        - name: Install python
-          uses: actions/setup-python@v4
-            with:
-              python-version: '3.9'
-              architecture: 'x64'
-        - name: Install pytest for unit test
-          run: python install pytest
-        - name: Build source code
-          run: mkdir build && cd build && FC=ifort cmake .. && make &&
-        - name: Run unittest
-          run: cd test && pytest test1.py
+            python-version: '3.9'
+            architecture: 'x64'
+      - name: Install pytest for unit test
+        run: python install pytest
+      - name: Build source code
+        run: mkdir build && cd build && FC=ifort cmake .. && make &&
+      - name: Run unittest
+        run: cd test && pytest test1.py
