@@ -1,0 +1,41 @@
+# https://github.com/oneapi-src/oneapi-ci/blob/master/.github/workflows/build_all.yml
+
+name: CI
+
+on: push
+
+jobs:
+  env:
+    LINUX_BASEKIT_SH: l_BaseKit_p_2022.2.0.262_offline.sh
+    LINUX_HPCKIT_SH: l_HPCKit_p_2022.2.0.191_offline.sh
+    LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18673/$LINUX_BASEKIT_SH
+    LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18679/$LINUX_HPCKIT_SH
+    LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
+  defaults:
+    run:
+      shell: bash
+build:
+  runs-on: ubnutu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: cache install
+      id: cache-install
+      uses: actions/cache@v2
+      with:
+        path: |
+          /opt/intel/oneapi/compiler
+        key: install-${{ env.LINUX_HPCKIT_URL }}-${{ env.LINUX_FORTRAN_COMPONENTS_WEB }}-compiler
+    - name: install fortran
+      if: steps.cache-install.outputs.cache-hit != 'true'
+        run: wget $LINUX_BASE_URL && sudo sh ./$LINUX_BASEKIT_SH && wget $LINUX_HPCKIT_URL && sudo sh ./$LINUX_HPCKIT_SH
+    - name: Install python
+      uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+    - name: Install pytest for unit test
+      run: python install pytest
+    - name: Build source code
+      run: mkdir build && cd build && FC=ifort cmake .. && make &&
+    - name: Run unittest
+      run: cd test && pytest test1.py
