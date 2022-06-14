@@ -33,6 +33,7 @@ jobs:
         run: |
           sudo apt-get install intel-oneapi-openmp intel-oneapi-mpi  intel-oneapi-mpi-devel intel-oneapi-mkl intel-oneapi-compiler-fortran
       - name: Set Intel oneAPI environments
+        run: |
           source /opt/intel/oneapi/setvars.sh
           printenv >> $GITHUB_ENV
       - name: Install python
