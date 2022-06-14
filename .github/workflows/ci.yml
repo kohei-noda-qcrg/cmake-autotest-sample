@@ -6,6 +6,7 @@ env:
   LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18673/l_BaseKit_p_2022.2.0.262_offline.sh
   LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18679/l_HPCKit_p_2022.2.0.191_offline.sh
   LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
+  FC: ifort
 defaults:
   run:
     shell: bash
@@ -31,7 +32,7 @@ jobs:
       - name: Install Intel Fortran compiler
         if: steps.cache-install.outputs.cache-hit != 'true'
         run: |
-          sudo apt-get install intel-oneapi-openmp intel-oneapi-mpi  intel-oneapi-mpi-devel intel-oneapi-mkl intel-oneapi-compiler-fortran
+          sudo apt-get install intel-oneapi-compiler-fortran intel-oneapi-openmp intel-oneapi-mpi intel-oneapi-mpi-devel intel-oneapi-mkl
       - name: Set Intel oneAPI environments
         run: |
           source /opt/intel/oneapi/setvars.sh
