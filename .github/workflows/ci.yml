@@ -28,10 +28,12 @@ jobs:
       - name: install fortran
         if: steps.cache-install.outputs.cache-hit != 'true'
         run: |
-          wget $LINUX_BASE_URL
-          sudo sh ./$LINUX_BASEKIT_SH
-          wget $LINUX_HPCKIT_URL
-          sudo sh ./$LINUX_HPCKIT_SH
+          wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+          sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+          echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+          sudo apt-get install intel-oneapi-openmp intel-oneapi-mpi  intel-oneapi-mpi-devel intel-oneapi-mkl intel-oneapi-compiler-fortran intel-oneapi-common-licensing
+          echo -e "\nsource /opt/intel/oneapi/setvars.sh > /dev/null" >> $HOME/.bashrc
+          source $HOME/.bashrc
       - name: Install python
         uses: actions/setup-python@v4
         with:
