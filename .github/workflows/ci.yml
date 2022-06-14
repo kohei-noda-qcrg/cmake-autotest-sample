@@ -10,6 +10,7 @@ env:
   LINUX_BASEKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18673/l_BaseKit_p_2022.2.0.262_offline.sh
   LINUX_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/18679/l_HPCKit_p_2022.2.0.191_offline.sh
   LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
+  IFORT_PATH: /opt/intel/oneapi/compiler/latest/linux/bin/intel64/ifort
 defaults:
   run:
     shell: bash
@@ -33,16 +34,12 @@ jobs:
           echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
           sudo apt-get update
           sudo apt-get install intel-oneapi-openmp intel-oneapi-mpi  intel-oneapi-mpi-devel intel-oneapi-mkl intel-oneapi-compiler-fortran intel-oneapi-common-licensing
-          echo -e "\nsource /opt/intel/oneapi/setvars.sh > /dev/null" >> $HOME/.bashrc
-          source $HOME/.bashrc
+          source /opt/intel/oneapi/setvars.sh
       - name: Install python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
           architecture: 'x64'
-      - name: check which ifort
-        run: |
-          which ifort
       - name: Install pytest for unit test
         run: python -m pip install pytest
       - name: Build source code
