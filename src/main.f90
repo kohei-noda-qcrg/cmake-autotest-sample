@@ -3,6 +3,9 @@ program main
     integer :: i
     i = 0
     print *, i
+    open (1, file="inp", form='formatted')
+    read (1) i
+    close (1)
     open (10, file='test.out', status='replace')
     write (10, *) i
     write (10, *) "CASCI ENERGY FOR  3 STATE"
