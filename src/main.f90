@@ -4,7 +4,7 @@ program main
     i = 0
     print *, i
     open (1, file="inp", form='formatted')
-    read (1) i
+    read (1, *) i
     close (1)
     open (10, file='test.out', status='replace')
     write (10, *) i
