@@ -14,10 +14,15 @@ def test_grep():
     output_file_path = os.path.normpath(os.path.join(absolute_filepath, "test.out"))
     print(output_file_path)
     with open(output_file_path, encoding="utf-8", mode="r") as f:
+        print("output file")
         print(f.read())
     with open(output_file_path, encoding="utf-8", mode="r") as f:
         test_grep_str = [s.strip() for s in f.readlines() if "Total" in s]
     ref_file_path = os.path.normpath(os.path.join(absolute_filepath, "ref.out"))
+    print(ref_file_path)
+    with open(ref_file_path, encoding="utf-8", mode="r") as f:
+        print("ref file")
+        print(f.read())
     with open(ref_file_path, encoding="utf-8", mode="r") as f:
         ref_grep_str = [s.strip() for s in f.readlines() if "Total" in s]
     # cp1 = subprocess.run(

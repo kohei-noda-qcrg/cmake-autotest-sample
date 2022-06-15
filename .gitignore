@@ -28,7 +28,7 @@
 
 # Executables
 *.exe
-*.out
+bin/*
 *.app
 
 # Modern Fortran auto create files
