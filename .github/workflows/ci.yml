@@ -66,10 +66,10 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           echo "TEST_ARGS=--runall" >> $GITHUB_ENV
-          echo "pytest $TEST_ARGS"
+          echo "pytest ${{ env.TEST_ARGS }}"
                 if: ${{ github.event_name == 'pull_request' }}
       - name: Print Action type(push)
         if: ${{ github.event_name == 'push' }}
         run: |
           echo "TEST_ARGS=--runslow" >> $GITHUB_ENV
-          echo "pytest $TEST_ARGS"
+          echo "pytest ${{ env.TEST_ARGS }}"
