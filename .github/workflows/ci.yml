@@ -65,11 +65,10 @@ jobs:
         timeout-minutes: 1
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          echo "TEST_ARGS=--runall" >> $GITHUB_ENV
-          echo "pytest ${{ env.TEST_ARGS }}"
-                if: ${{ github.event_name == 'pull_request' }}
+          echo 'TEST_ARGS=--runall' >> $GITHUB_ENV
+          echo 'pytest ${{ env.TEST_ARGS }}'
       - name: Print Action type(push)
         if: ${{ github.event_name == 'push' }}
         run: |
-          echo "TEST_ARGS=--runslow" >> $GITHUB_ENV
-          echo "pytest ${{ env.TEST_ARGS }}"
+          echo 'TEST_ARGS=--runslow' >> $GITHUB_ENV
+          echo 'pytest ${{ env.TEST_ARGS }}'
