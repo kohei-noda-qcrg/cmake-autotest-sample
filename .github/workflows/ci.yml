@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
   pull_request:
 
@@ -56,21 +56,13 @@ jobs:
         run: |
           FC=ifort cmake -B build
           cmake --build build
-      - name: Run unittest
+      - name: Run unittest(pull_request)
         timeout-minutes: 5
-        run: |
-          cd test
-          pytest test1.py
-      - name: Print Action type(pull_request)
-        timeout-minutes: 1
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          echo 'TEST_ARGS=runall' >> $GITHUB_ENV
-          printenv
-          echo 'pytest ${{ env.TEST_ARGS }}'
-      - name: Print Action type(push)
+          pytest --runall
+      - name: Run unittest(push)
+        timeout-minutes: 5
         if: ${{ github.event_name == 'push' }}
         run: |
-          echo 'TEST_ARGS=runslow' >> $GITHUB_ENV
-          printenv
-          echo 'pytest ${{ env.TEST_ARGS }}'
+          pytest --runslow

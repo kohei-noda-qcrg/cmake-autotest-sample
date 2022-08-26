@@ -1,19 +1,14 @@
 import subprocess
+import pytest
 import os
-
-# import pytest
-
 
 # def err() -> None:
 #     print("err")
 
 
-# @pytest.mark.default
-#def test2() -> None:
-#     if 1 == 1:
-#         err()
-#         exit(1)
-#     assert 0 == pytest.approx(10 ** -20)
+@pytest.mark.slow
+def test2() -> None:
+    assert 0 == pytest.approx(10**-20)
 
 
 # @pytest.mark.performance
@@ -23,17 +18,13 @@ import os
 #     assert cp.returncode == 0
 
 
-
-def test_grep():
+@pytest.mark.runall
+def test_grep() -> None:
     absolute_filepath = os.path.dirname(os.path.abspath(__file__))
-    cp0 = subprocess.call(absolute_filepath + "/../bin/a.out", shell=True)
+    cp0 = subprocess.call(absolute_filepath + "/../../bin/a.out", shell=True)
     print(cp0)
     out = subprocess.call(
         "cat test.out | awk '/ENERGY/{getline;print $2}$1 ~ /Total/{print $(NF - 1)}' | tr -s '\n'",
         shell=True,
     )
     assert cp0 == out
-
-
-if __name__ == "__main__":
-    test_grep()
