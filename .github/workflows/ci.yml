@@ -61,3 +61,15 @@ jobs:
         run: |
           cd test
           pytest test1.py
+      - name: Print Action type(pull_request)
+        timeout-minutes: 1
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "TEST_ARGS=--runall" >> $GITHUB_ENV
+          echo "pytest $TEST_ARGS"
+                if: ${{ github.event_name == 'pull_request' }}
+      - name: Print Action type(push)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          echo "TEST_ARGS=--runslow" >> $GITHUB_ENV
+          echo "pytest $TEST_ARGS"
