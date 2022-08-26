@@ -63,8 +63,11 @@ jobs:
           pytest --veryslowonly
       - name: Run unittest(normal and slow, push)
         timeout-minutes: 5
-        if: ${{ github.event_name == 'push' }}
+        if: (${{ github.event_name == 'push' }}) && !(${{ github.ref_name }} == 'main')
         run: |
-          echo ${{ github.ref_name }}
-          echo ${{ github.event_name }}
           pytest --slow
+      - name: Run unittest(all, push to main branch)
+        timeout-minutes: 5
+        if: (${{ github.event_name == 'push' }}) && (${{ github.ref_name }} == 'main')
+        run: |
+          pytest --all
