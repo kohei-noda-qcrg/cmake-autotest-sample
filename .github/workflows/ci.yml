@@ -77,4 +77,5 @@ jobs:
           echo ${{ github.ref_name }}
           echo ${{ github.event_name == 'push' }}
           echo ${{ github.ref_name }} == 'main'
+          echo ${{ github.ref_name == 'main' }}
           pytest --all
