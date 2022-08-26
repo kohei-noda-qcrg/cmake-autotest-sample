@@ -1,6 +1,8 @@
 name: CI
 
-on: push
+on:
+  push:
+  pull_request:
 
 env:
   LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
@@ -54,8 +56,18 @@ jobs:
         run: |
           FC=ifort cmake -B build
           cmake --build build
-      - name: Run unittest
+      - name: Run unittest(veryslowonly, pull_request)
         timeout-minutes: 5
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
-          cd test
-          pytest test1.py
+          pytest --veryslowonly
+      - name: Run unittest(normal and slow, push)
+        timeout-minutes: 5
+        if: ${{ github.ref_name != 'main' && github.event_name == 'push' }}
+        run: |
+          pytest --slow
+      - name: Run unittest(all, push to main branch)
+        timeout-minutes: 5
+        if: ${{ github.ref_name == 'main' && github.event_name == 'push' }}
+        run: |
+          pytest --all
