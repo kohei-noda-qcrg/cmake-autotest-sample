@@ -1,6 +1,8 @@
 name: CI
 
-on: push
+on: 
+  push:
+  pull_request:
 
 env:
   LINUX_FORTRAN_COMPONENTS_WEB: intel.oneapi.lin.ifort-compiler
