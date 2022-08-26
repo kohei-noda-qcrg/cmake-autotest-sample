@@ -60,9 +60,9 @@ jobs:
         timeout-minutes: 5
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          pytest --runall
+          pytest --slowestonly
       - name: Run unittest(push)
         timeout-minutes: 5
         if: ${{ github.event_name == 'push' }}
         run: |
-          pytest --runslow
+          pytest --slow

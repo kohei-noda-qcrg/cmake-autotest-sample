@@ -11,14 +11,11 @@ def test2() -> None:
     assert 0 == pytest.approx(10**-20)
 
 
-# @pytest.mark.performance
-# def test() -> None:
-#     absolute_filepath = os.path.dirname(os.path.abspath(__file__))
-#     cp = subprocess.run("ls " + absolute_filepath + "/test.sh", shell=True)
-#     assert cp.returncode == 0
+def test() -> None:
+    assert 0 == 0
 
 
-@pytest.mark.runall
+@pytest.mark.slowestonly
 def test_grep() -> None:
     absolute_filepath = os.path.dirname(os.path.abspath(__file__))
     cp0 = subprocess.call(absolute_filepath + "/../../bin/a.out", shell=True)
