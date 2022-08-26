@@ -15,7 +15,7 @@ def test() -> None:
     assert 0 == 0
 
 
-@pytest.mark.slowestonly
+@pytest.mark.veryslowonly
 def test_grep() -> None:
     absolute_filepath = os.path.dirname(os.path.abspath(__file__))
     cp0 = subprocess.call(absolute_filepath + "/../../bin/a.out", shell=True)

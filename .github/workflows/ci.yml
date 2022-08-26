@@ -56,13 +56,15 @@ jobs:
         run: |
           FC=ifort cmake -B build
           cmake --build build
-      - name: Run unittest(pull_request)
+      - name: Run unittest(veryslowonly, pull_request)
         timeout-minutes: 5
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          pytest --slowestonly
-      - name: Run unittest(push)
+          pytest --veryslowonly
+      - name: Run unittest(normal and slow, push)
         timeout-minutes: 5
         if: ${{ github.event_name == 'push' }}
         run: |
+          echo ${{ github.ref_name }}
+          echo ${{ github.event_name }}
           pytest --slow

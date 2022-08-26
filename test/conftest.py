@@ -1,7 +1,7 @@
 import pytest
 
 slow_opion = "--slow"
-slowest_only_option="--slowestonly"
+slowest_only_option="--veryslowonly"
 runall_option = "--all"
 
 
@@ -24,8 +24,8 @@ def the_number_of_process(request):
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "slow: mark test as slow to run")
-    config.addinivalue_line("markers", "slowestonly: mark test as slowestonly to run")
-    config.addinivalue_line("markers", "runall: run all tests")
+    config.addinivalue_line("markers", "veryslowonly: mark test as veryslowonly to run")
+    config.addinivalue_line("markers", "all: run all tests")
 
 
 def pytest_collection_modifyitems(config, items):
@@ -35,7 +35,7 @@ def pytest_collection_modifyitems(config, items):
     if config.getoption(runall_option):
         return
     for item in items:
-        if item.get_closest_marker("slowestonly"):
+        if item.get_closest_marker("veryslowonly"):
             if not config.getoption(runall_option) and not config.getoption(slowest_only_option):
                 item.add_marker(skip_slowest)
         else:
